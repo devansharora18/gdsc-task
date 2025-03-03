@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Latte */
+:root {
+  --background: #eff1f5;
+  --foreground: #4c4f69;
+  --card: #e6e9ef;
+  --input: #ccd0da;
+  --primary: #7287fd;
+  --primary-foreground: #eff1f5;
+  --primary-hover: #606fe6;
+  --accent: #1e66f5;
+  --secondary: #ccd0da;
+  --secondary-foreground: #4c4f69;
+  --secondary-hover: #b3b6c2;
+}
+
+/* Mocha */
+[data-theme="dark"] {
+    --background: #1e1e2e;
+    --foreground: #cdd6f4;
+    --card: #313244;
+    --input: #45475a;
+    --primary: #89b4fa;
+	--primary-foreground: #1e1e2e;
+    --primary-hover: #7392db;
+    --accent: #b4befe;
+	--secondary: #45475a;
+	--secondary-foreground: #cdd6f4;
+	--secondary-hover: #3f3f5a;
+}
