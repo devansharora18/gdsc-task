@@ -40,7 +40,7 @@ const PostUI: React.FC<{ post: Post }> = ({ post }) => {
         <div className="mt-4 p-3 bg-[var(--input)] rounded-md text-sm text-[var(--secondary-foreground)] border-l-4 border-[var(--primary)]">
           <div className="flex items-center space-x-3">
             
-			<Image src={post.comments[0].user?.image || "https://dummyjson.com/user/1"} alt="User" width={20} height={20} className="rounded-full bg-black border border-[var(--secondary)]" />
+		
 
             <span className="font-medium text-[var(--foreground)]">{post.comments[0].user?.username || "Unknown"}</span>
           </div>

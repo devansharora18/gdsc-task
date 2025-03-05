@@ -1,14 +1,27 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Themeswitcher from "../components/Themeswitcher";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const [username, setUsername] = useState("michaelw");
   const [password, setPassword] = useState("michaelwpass");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const router = useRouter();
+
+  // go to home page if user is already logged in
+
+  useEffect(() => {
+	const token = localStorage.getItem("accessToken");
+	console.log("token", token);
+	if (token) {
+	  router.push("/home");
+	}
+  }, []);
 
   const login = async (username: string, password: string): Promise<void> => {
     setLoading(true);
@@ -23,8 +36,8 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         const { accessToken } = data;
-        console.log(accessToken);
-        localStorage.setItem("token", accessToken);
+        console.log("accessToken", accessToken);
+        localStorage.setItem("accessToken", accessToken);
       } else {
         setError("Invalid username or password");
       }

@@ -26,6 +26,8 @@ interface Comment {
 	  username: string;
 	  image: string;
 	};
+
+	views: number;
   }
 
 export type { Comment, Post };

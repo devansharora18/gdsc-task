@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { ThumbsUp, ThumbsDown, MessageSquare, X } from "lucide-react";
+import { ThumbsUp, ThumbsDown, MessageSquare, X, Eye } from "lucide-react";
 import { Post, Comment } from "../../components/Interfaces";
 import PostViewSkeleton from "@/app/components/PostViewSkeleton";
 
@@ -106,6 +106,9 @@ const PostView = () => {
             <button className="flex items-center space-x-1 hover:text-green-500 transition">
               <MessageSquare size={20} />
               <span>{post?.comments?.length || 0}</span>
+            </button><button className="flex items-center space-x-1 hover:text-green-500 transition">
+              <Eye size={20} />
+              <span>{post?.views || 0}</span>
             </button>
           </div>
         </div>
