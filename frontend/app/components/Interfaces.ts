@@ -14,6 +14,7 @@ interface User {
   }
   
   interface Post {
+	post: { id: any; username: any; image: any; };
 	id: number;
 	title: string;
 	body: string;

@@ -66,7 +66,7 @@ const HomePage = () => {
   
 		  const userRes = await fetch(`https://dummyjson.com/users/${post.userId}`);
 		  const userData = await userRes.json();
-		  post.user = { id: userData.id, username: userData.username, image: userData.image };
+      post.user = { id: userData.id, username: userData.username, image: userData.image, fullName: userData.fullName, email: userData.email };
   
 		  return post;
 		})

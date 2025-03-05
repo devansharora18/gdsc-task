@@ -7,7 +7,7 @@ import Image from "next/image";
 import PostUI from "../components/PostUI";
 import PostSkeleton from "../components/PostSkeleton";
 import { Post} from "../components/Interfaces";
-
+import { useRouter } from "next/navigation";
 
 
 
@@ -22,6 +22,7 @@ const Search = () => {
   const [order, setOrder] = useState("desc");
   const [tag, setTag] = useState("");
   const [detailedPosts, setDetailedPosts] = useState<Post[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
 	const savedTheme = localStorage.getItem("theme");
@@ -118,7 +119,9 @@ const Search = () => {
 				id: userData.id,
 				username: userData.username,
 				image: userData.image,
-			  },
+        fullName: userData.fullName,
+        email: userData.email,
+        },
 			  comments: commentsData.comments,
 			};
 		  })
