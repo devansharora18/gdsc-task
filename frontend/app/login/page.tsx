@@ -6,14 +6,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const [username, setUsername] = useState("michaelw");
-  const [password, setPassword] = useState("michaelwpass");
+  const [username, setUsername] = useState("abigailr");
+  const [password, setPassword] = useState("abigailrpass");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const router = useRouter();
 
-  // go to home page if user is already logged in
 
   useEffect(() => {
 	const token = localStorage.getItem("accessToken");
@@ -38,6 +37,7 @@ const Login = () => {
         const { accessToken } = data;
         console.log("accessToken", accessToken);
         localStorage.setItem("accessToken", accessToken);
+		router.push("/home");
       } else {
         setError("Invalid username or password");
       }

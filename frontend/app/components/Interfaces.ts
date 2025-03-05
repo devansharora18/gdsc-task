@@ -1,13 +1,16 @@
-interface Comment {
+interface User {
+	id: number;
+	username: string;
+	fullName: string;
+	email: string;
+	image?: string;
+  }
+  
+  interface Comment {
 	id: number;
 	body: string;
 	likes: number;
-	user: {
-	  id: number;
-	  username: string;
-	  fullName: string;
-	  image?: string;
-	};
+	user: User;
   }
   
   interface Post {
@@ -21,13 +24,9 @@ interface Comment {
 	tags: string[];
 	comments?: Comment[];
 	userId: number;
-	user?: {
-	  id: number;
-	  username: string;
-	  image: string;
-	};
-
+	user?: User;
 	views: number;
   }
-
-export type { Comment, Post };
+  
+  export type { User, Comment, Post };
+  

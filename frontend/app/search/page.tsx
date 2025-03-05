@@ -23,6 +23,17 @@ const Search = () => {
   const [tag, setTag] = useState("");
   const [detailedPosts, setDetailedPosts] = useState<Post[]>([]);
 
+  useEffect(() => {
+	const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+	document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
+	router.push("/login");
+  }
+  }, []);
+
 
   useEffect(() => {
 	const fetchPosts = async () => {

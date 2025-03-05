@@ -14,12 +14,16 @@ const PostView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-	  useEffect(() => {
-		  const savedTheme = localStorage.getItem("theme");
-		  if (savedTheme) {
-			  document.documentElement.setAttribute("data-theme", savedTheme);
-		  }
-	  }, []);
+  useEffect(() => {
+	const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+	document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
+	router.push("/login");
+  }
+  }, []);
 
   useEffect(() => {
     const fetchPostDetails = async () => {
@@ -76,15 +80,22 @@ const PostView = () => {
 
 
         <div className="flex items-center space-x-4 p-4 border-b border-[var(--secondary)]">
-          <Image
-            src={post?.user?.image || "https://dummyjson.com/user/1"}
-            alt="User"
-            width={50}
-            height={50}
-            className="rounded-full border border-[var(--secondary)]"
-          />
-          <span className="font-semibold text-lg text-[var(--foreground)]">{post?.user?.username || "Anonymous"}</span>
-        </div>
+  <Image
+    src={post?.user?.image || "https://dummyjson.com/user/1"}
+    alt="User"
+    width={50}
+    height={50}
+    className="rounded-full border border-[var(--secondary)] cursor-pointer"
+    onClick={() => router.push(`/user/${post?.user?.id}`)}
+  />
+  <span 
+    className="font-semibold text-lg text-[var(--foreground)] cursor-pointer"
+    onClick={() => router.push(`/user/${post?.user?.id}`)}
+  >
+    {post?.user?.username || "Anonymous"}
+  </span>
+</div>
+
 
 
         <div className="p-5">
@@ -118,18 +129,25 @@ const PostView = () => {
           <div className="space-y-4">
             {post?.comments?.map((comment, index) => (
               <div key={index} className="flex space-x-3 items-start hover:bg-[var(--secondary)] transition p-2 rounded-lg">
-                <Image
-                  src={comment.user?.image || "https://dummyjson.com/user/1"}
-                  alt="User"
-                  width={35}
-                  height={35}
-                  className="rounded-full border border-[var(--secondary)]"
-                />
-                <div className="bg-[var(--input)] rounded-lg p-3 w-full shadow-sm">
-                  <span className="font-medium text-[var(--foreground)]">{comment.user?.username || "Unknown"}</span>
-                  <p className="text-[var(--secondary-foreground)] text-sm mt-1">{comment.body}</p>
-                </div>
-              </div>
+			  <Image
+				src={comment.user?.image || "https://dummyjson.com/user/1"}
+				alt="User"
+				width={35}
+				height={35}
+				className="rounded-full border border-[var(--secondary)] cursor-pointer"
+				onClick={() => router.push(`/user/${comment.user?.id}`)}
+			  />
+			  <div className="bg-[var(--input)] rounded-lg p-3 w-full shadow-sm">
+				<span 
+				  className="font-medium text-[var(--foreground)] cursor-pointer"
+				  onClick={() => router.push(`/user/${comment.user?.id}`)}
+				>
+				  {comment.user?.username || "Unknown"}
+				</span>
+				<p className="text-[var(--secondary-foreground)] text-sm mt-1">{comment.body}</p>
+			  </div>
+			</div>
+			
             ))}
           </div>
         </div>

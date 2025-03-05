@@ -7,6 +7,7 @@ import Image from "next/image";
 import PostUI from "../components/PostUI";
 import PostSkeleton from "../components/PostSkeleton";
 import { Comment, Post } from "../components/Interfaces";
+import { useRouter } from "next/navigation";
 
 const HomePage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -14,9 +15,24 @@ const HomePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
+  const router = useRouter();
+
+
+  useEffect(() => {
+	const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+	document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
+	router.push("/login");
+  }
+  }, []);
 
   const fetchPosts = useCallback(async () => {
 	if (isFetching) return;
+
+	
   
 	setIsFetching(true);
 	try {

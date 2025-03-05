@@ -9,11 +9,13 @@ const PostUI: React.FC<{ post: Post }> = ({ post }) => {
     <Link href={`/post/${post.id}`} className="block">
       <div className="p-5 w-full bg-[var(--card)] border border-[var(--input)] rounded-xl shadow-lg cursor-pointer hover:shadow-xl transition-shadow duration-200">
         
+		{post.user && 
         <div className="flex items-center space-x-3 mb-3">
           <Image src={post.user?.image || "https://dummyjson.com/user/1"} alt="User" width={40} height={40} className="rounded-full bg-black border border-[var(--secondary)]" />
 
           <span className="font-medium text-lg text-[var(--foreground)]">{post.user?.username || "Anonymous"}</span>
         </div>
+		}
 
         <h2 className="text-lg font-semibold mb-1 text-[var(--foreground)]">{post.title}</h2>
         <p className="text-sm text-[var(--secondary-foreground)]">{post.body}</p>
