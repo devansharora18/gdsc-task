@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
 const Themeswitcher = () => {
-    const [theme, setTheme] = useState<string>("light");
+    const [theme, setTheme] = useState<string>("dark");
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme");
