@@ -15,15 +15,34 @@ const PostView = () => {
   const [error, setError] = useState<string | null>(null);
   
   useEffect(() => {
-	const savedTheme = localStorage.getItem("theme");
-  if (savedTheme) {
-	document.documentElement.setAttribute("data-theme", savedTheme);
-  }
-  const token = localStorage.getItem("accessToken");
-  if (!token) {
-	router.push("/login");
-  }
-  }, []);
+	  const fetchUserDetails = async () => {
+		const savedTheme = localStorage.getItem("theme");
+		if (savedTheme) {
+		  document.documentElement.setAttribute("data-theme", savedTheme);
+		}
+		const accessToken = localStorage.getItem("accessToken");
+		if (!accessToken) {
+		router.push("/login");
+	  }
+  
+		// Fetch user details
+		const userRes = await fetch(`https://dummyjson.com/user/me`, {
+		  method: "GET",
+		  headers: {
+			Authorization: `Bearer ${accessToken}`,
+		  },
+		});
+		if (!userRes.ok) {
+		router.push("/login");
+	  }
+	  };
+  
+	  fetchUserDetails().catch((error) => {
+		console.error(error);
+	  setError("Failed to fetch user details");
+	  router.push("/login");
+	  });
+	}, []);
 
   useEffect(() => {
     const fetchPostDetails = async () => {

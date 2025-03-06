@@ -17,76 +17,91 @@ const HomePage = () => {
   const [isFetching, setIsFetching] = useState(false);
   const router = useRouter();
 
-
   useEffect(() => {
-	const savedTheme = localStorage.getItem("theme");
-  if (savedTheme) {
-	document.documentElement.setAttribute("data-theme", savedTheme);
-  }
-  const token = localStorage.getItem("accessToken");
-  if (!token) {
-	router.push("/login");
-  }
+    const fetchUserDetails = async () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+		router.push("/login");
+	  }
+
+      // Fetch user details
+      const userRes = await fetch(`https://dummyjson.com/user/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!userRes.ok) {
+		router.push("/login");
+	  }
+    };
+
+    fetchUserDetails().catch((error) => {
+      console.error(error);
+	  setError("Failed to fetch user details");
+	  router.push("/login");
+    });
   }, []);
 
   const fetchPosts = useCallback(async () => {
-	if (isFetching) return;
+    if (isFetching) return;
 
-	
-  
-	setIsFetching(true);
-	try {
-	  const response = await fetch(`https://dummyjson.com/posts?limit=10&skip=${page * 10}`);
-	  if (!response.ok) throw new Error("Failed to fetch posts");
-  
-	  const data = await response.json();
-	  const postsWithDetails = await Promise.all(
-		data.posts.map(async (post: Post) => {
-		  const commentsRes = await fetch(`https://dummyjson.com/posts/${post.id}/comments`);
-		  const commentsData = await commentsRes.json();
-  
-		  const commentsWithUserDetails = await Promise.all(
-			commentsData.comments.map(async (comment: Comment) => {
-			  const userRes = await fetch(`https://dummyjson.com/users/${comment.user.id}`);
-			  const userData = await userRes.json();
-  
-			  return {
-				...comment,
-				user: {
-				  id: userData.id,
-				  username: userData.username,
-				  fullName: userData.fullName,
-				  image: userData.image,
-				},
-			  };
-			})
-		  );
-  
-		  post.comments = commentsWithUserDetails;
-  
-		  const userRes = await fetch(`https://dummyjson.com/users/${post.userId}`);
-		  const userData = await userRes.json();
-      post.user = { id: userData.id, username: userData.username, image: userData.image, fullName: userData.fullName, email: userData.email };
-  
-		  return post;
-		})
-	  );
-  
-	  setPosts((prev) => {
-		const existingIds = new Set(prev.map((p) => p.id));
-		const newPosts = postsWithDetails.filter((p) => !existingIds.has(p.id));
-		return [...prev, ...newPosts];
-	  });
-  
-	  setPage((prev) => prev + 1);
-	} catch (err: any) {
-	  setError(err.message);
-	} finally {
-	  setLoading(false);
-	  setIsFetching(false);
-	}
+    setIsFetching(true);
+    try {
+      const response = await fetch(`https://dummyjson.com/posts?limit=10&skip=${page * 10}`);
+      if (!response.ok) throw new Error("Failed to fetch posts");
+
+      const data = await response.json();
+      const postsWithDetails = await Promise.all(
+        data.posts.map(async (post: Post) => {
+          const commentsRes = await fetch(`https://dummyjson.com/posts/${post.id}/comments`);
+          const commentsData = await commentsRes.json();
+
+          const commentsWithUserDetails = await Promise.all(
+            commentsData.comments.map(async (comment: Comment) => {
+              const userRes = await fetch(`https://dummyjson.com/users/${comment.user.id}`);
+              const userData = await userRes.json();
+
+              return {
+                ...comment,
+                user: {
+                  id: userData.id,
+                  username: userData.username,
+                  fullName: userData.fullName,
+                  image: userData.image,
+                },
+              };
+            })
+          );
+
+          post.comments = commentsWithUserDetails;
+
+          const userRes = await fetch(`https://dummyjson.com/users/${post.userId}`);
+          const userData = await userRes.json();
+          post.user = { id: userData.id, username: userData.username, image: userData.image, fullName: userData.fullName, email: userData.email };
+
+          return post;
+        })
+      );
+
+      setPosts((prev) => {
+        const existingIds = new Set(prev.map((p) => p.id));
+        const newPosts = postsWithDetails.filter((p) => !existingIds.has(p.id));
+        return [...prev, ...newPosts];
+      });
+
+      setPage((prev) => prev + 1);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+      setIsFetching(false);
+    }
   }, [page, isFetching]);
-  
 
   useEffect(() => {
     fetchPosts();

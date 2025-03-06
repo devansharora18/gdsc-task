@@ -44,7 +44,9 @@ const ProfilePage = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        if (!userRes.ok) throw new Error("Failed to fetch user profile");
+        if (!userRes.ok) {
+			router.push("/login");
+		}
         const userData = await userRes.json();
         setUser(userData);
 
