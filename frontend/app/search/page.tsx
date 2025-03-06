@@ -171,18 +171,17 @@ const Search = () => {
         <Themeswitcher />
       </div>
 
-      <div className="flex-1 w-full max-w-screen-sm mx-auto p-4 mt-16 space-y-6">
+      <div className="flex-1 w-full max-w-screen-sm mx-auto p-4 mt-16 space-y-4">
         <div className="flex items-center space-x-4">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search posts..."
-            className="flex-1 p-2 border border-[var(--input)] rounded"
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            className="flex-1 p-2 border border-[var(--input)] rounded mt-2"
           />
         </div>
-        <div className="flex items-center space-x-4 mt-4 overflow-x-auto scrollbar-hide">
+        <div className="flex items-center space-x-4 mt-2 overflow-x-auto scrollbar-hide">
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
@@ -212,7 +211,11 @@ const Search = () => {
           </select>
         </div>
 
-        {loading ? <PostSkeleton /> : detailedPosts.map((post) => <PostUI key={post.id} post={post} />)}
+        {loading ? <div className="space-y-4">
+		  <PostSkeleton />
+		  <PostSkeleton />
+		  <PostSkeleton />
+		</div>: detailedPosts.map((post) => <PostUI key={post.id} post={post} />)}
 
         <div className="flex justify-between mt-4">
           <button

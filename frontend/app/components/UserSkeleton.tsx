@@ -2,7 +2,7 @@ import React from "react";
 
 const ProfileSkeleton = () => {
   return (
-    <div className="flex flex-col items-center bg-[var(--background)] min-h-screen p-6">
+    <div className="flex flex-col items-center bg-[var(--background)] min-h-screen">
       <div className="bg-[var(--card)] p-6 rounded-lg shadow-lg w-full max-w-3xl text-center animate-pulse">
         <div className="w-24 h-24 bg-[var(--secondary)] rounded-full mx-auto"></div>
         <div className="h-5 w-32 bg-[var(--secondary)] rounded mt-4 mx-auto"></div>

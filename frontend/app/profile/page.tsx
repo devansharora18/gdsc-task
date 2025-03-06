@@ -65,12 +65,10 @@ const ProfilePage = () => {
     fetchUserProfile();
   }, []);
 
-  if (loading) return <ProfileSkeleton />;
-  if (error) return <p className="text-red-500 text-center">{error}</p>;
-
   return (
-    <div className="flex flex-col items-center bg-[var(--background)] min-h-screen p-6">
-      {/* User Profile Section */}
+    <div className="flex flex-col items-center bg-[var(--background)] min-h-screen w-full p-6">
+
+	  {loading && <ProfileSkeleton />}
       <div className="bg-[var(--card)] p-6 rounded-lg shadow-lg w-full max-w-3xl text-center">
         <Image
           src={user?.image || "https://dummyjson.com/user/1"}
