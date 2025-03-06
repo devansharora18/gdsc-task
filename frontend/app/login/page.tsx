@@ -15,11 +15,34 @@ const Login = () => {
 
 
   useEffect(() => {
-	const token = localStorage.getItem("accessToken");
-	console.log("token", token);
-	if (token) {
-	  router.push("/home");
-	}
+	const fetchUserDetails = async () => {
+		try {
+			const savedTheme = localStorage.getItem("theme");
+			if (savedTheme) {
+				document.documentElement.setAttribute("data-theme", savedTheme);
+			}
+			const accessToken = localStorage.getItem("accessToken");
+			if (!accessToken) {
+				return;
+			}
+  
+			// Fetch user details
+			const userRes = await fetch(`https://dummyjson.com/user/me`, {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
+			if (userRes.ok) {
+				router.push("/home");
+				return;
+			}
+		} catch (error) {
+			
+		}
+	};
+  
+	fetchUserDetails();
   }, []);
 
   const login = async (username: string, password: string): Promise<void> => {

@@ -17,35 +17,39 @@ const HomePage = () => {
   const [isFetching, setIsFetching] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      }
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-		router.push("/login");
-	  }
+useEffect(() => {
+	const fetchUserDetails = async () => {
+		try {
+			const savedTheme = localStorage.getItem("theme");
+			if (savedTheme) {
+				document.documentElement.setAttribute("data-theme", savedTheme);
+			}
+			const accessToken = localStorage.getItem("accessToken");
+			if (!accessToken) {
+				router.push("/login");
+				return;
+			}
 
-      // Fetch user details
-      const userRes = await fetch(`https://dummyjson.com/user/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (!userRes.ok) {
-		router.push("/login");
-	  }
-    };
+			// Fetch user details
+			const userRes = await fetch(`https://dummyjson.com/user/me`, {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
+			if (!userRes.ok) {
+				router.push("/login");
+				return;
+			}
+		} catch (error) {
+			console.error(error);
+			setError("Failed to fetch user details");
+			router.push("/login");
+		}
+	};
 
-    fetchUserDetails().catch((error) => {
-      console.error(error);
-	  setError("Failed to fetch user details");
-	  router.push("/login");
-    });
-  }, []);
+	fetchUserDetails();
+}, []);
 
   const fetchPosts = useCallback(async () => {
     if (isFetching) return;
