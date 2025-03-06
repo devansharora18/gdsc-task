@@ -1,4 +1,4 @@
-GDSC - HUB - A Responsive Social Media Website
+GDSC-HUB - A Responsive Social Media Website
 =============================================
 
 GDSC-HUB is a fully responsive social media platform developed for the GDSC VIT recruitment task. This project utilizes the DummyJSON API to fetch and display posts while providing users with an interactive and seamless browsing experience.
@@ -39,7 +39,7 @@ Features
 Technologies Used
 -----------------
 
--   **Frontend**: React.js with Tailwind CSS for a modern and responsive UI.
+-   **Frontend**: Next.js with Tailwind CSS for a modern and responsive UI.
 -   **API**: DummyJSON API for fetching and managing posts.
 
 How to Use
